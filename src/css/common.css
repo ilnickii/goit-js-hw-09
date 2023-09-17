@@ -19,6 +19,12 @@ img {
 
 .timer {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
