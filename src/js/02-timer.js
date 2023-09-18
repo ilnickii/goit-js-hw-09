@@ -1,5 +1,6 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 function addLeadingZero(value) {
   return value < 10 ? `0${value}` : value;
@@ -16,7 +17,7 @@ function checkStartButtonState() {
   const selectedDate = flatpickr.parseDate(dateTimePicker.value, 'Y-m-d H:i');
   const currentDate = new Date();
 
-  if (selectedDate <= currentDate || dateTimePicker.value.trim() === '') {
+  if (selectedDate <= currentDate) {
     startButton.disabled = true;
   } else {
     startButton.disabled = false;
@@ -26,12 +27,14 @@ function checkStartButtonState() {
 flatpickr(dateTimePicker, {
   enableTime: true,
   time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
   onClose: function (selectedDates) {
     const selectedDate = selectedDates[0];
     const currentDate = new Date();
 
-    if (selectedDate <= currentDate || dateTimePicker.value.trim() === '') {
-      alert("Please choose a date in the future");
+    if (selectedDate <= currentDate) {
+      Notify.failure("Please choose a date in the future");
       startButton.disabled = true;
     } else {
       checkStartButtonState();
@@ -78,7 +81,7 @@ startButton.addEventListener('click', function () {
   const currentDate = new Date();
 
   if (selectedDate <= currentDate) {
-    alert("Please choose a date in the future");
+    Notify.failure("Please choose a date in the future");
     return;
   }
 
@@ -86,6 +89,5 @@ startButton.addEventListener('click', function () {
     updateTimer(selectedDate);
   }, 1000);
 });
-
 
 
